@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS payment;
+CREATE TABLE payment (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  payment_mode TEXT NOT NULL,
+  order_id TEXT,
+  value INTEGER NOT NULL,
+  status INTEGER NOT NULL
+);

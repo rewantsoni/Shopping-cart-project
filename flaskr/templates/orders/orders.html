@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ user }}'s Previous Oredrs:{% endblock %}</h1>
+
+  {% if user %}   
+  <h2>Hello {{ user }}</h2>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if not products %}
+  <p>No previous Orders.</p>
+  <p><a href=" {{ url_for('home.loggedindex',username=user) }}"><BUTTON>Shop Now!</BUTTON></a></p>
+  {% else %}
+  <h3>Products Brought:</h3>
+  {% for product in products %}
+    <div class="card">
+     <h1>{{ product['name'] }}</h1>
+     <div class="about"> Type {{ product['type'] }}</div>
+     <div class="about">by {{ product['manufacturer'] }} supplied by {{ product['supplier'] }}</div>
+     <div class="about">{{ product['details'] }}</div>
+     <p class="price">{{ product['cost'] }}</p>
+    </div>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  <hr>
+  <p><a href=" {{ url_for('home.loggedindex',username=user) }}"><BUTTON>Shop More!</BUTTON></a></p>
+  {% endif %}
+{% endblock %}

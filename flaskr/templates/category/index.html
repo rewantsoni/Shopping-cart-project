@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Products{% endblock %}</h1>
+
+  {% if user %}   
+  <h2>Hello {{ user }}</h2>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for product in products %}
+    <form method="post" action="">
+    <div class="card">
+    <input name="id" id="id" type="hidden"
+      value="{{ request.form['id'] or product['id'] }}" required >
+     <h1>{{ product['name'] }}</h1>
+     <div class="about"> Type {{ product['type'] }}</div>
+     <div class="about">by {{ product['manufacturer'] }} supplied by {{ product['supplier'] }}</div>
+     <div class="about">{{ product['details'] }}</div>
+     <p class="price">{{ product['cost'] }}</p>
+       {% if user %}
+       <input type="submit" name='action' value="Buy Now">
+       <input type="submit" name='action' value="Add to Cart">
+       {% else %}
+       <input type="submit" value="Login to Buy">
+       {% endif %}
+      </form>
+    </div>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

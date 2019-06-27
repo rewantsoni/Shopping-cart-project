@@ -1,0 +1,26 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Shopping</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Shopping Example</h1>
+  <ul>
+    {% if user %}
+      <li><a href="{{ url_for('home.loggedindex',username=user )}}">Home</a>
+      <li><a href="{{ url_for('mycart.index',username=user )}}">Cart</a>
+      <li><a href="{{ url_for('myorders.index',username=user )}}">Previous Orders</a>
+      <li><a href="{{ url_for('logout.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('register.register') }}">Register</a>
+      <li><a href="{{ url_for('login.login') }}">Log In</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

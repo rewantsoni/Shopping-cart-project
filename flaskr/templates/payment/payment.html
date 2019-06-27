@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <ul>
+    {% if user %}
+      <li><a href="{{ url_for('logout.logout') }}">Log Out</a>
+    {% endif %}
+  </ul>
+</nav>
+{% block header %}
+  <h1>{% block title %}Secured Payment{% endblock %}</h1>
+
+  {% if user %}   
+  <h2>Payment for {{ user['username'] }}</h2>
+  {% endif %}
+{% endblock %}
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+{% block content %}
+  <h3>Product Summary:</h3>
+  {% for product in products %}
+    <div class="card">
+     <h1>{{ product['name'] }}</h1>
+     <div class="about"> Type {{ product['type'] }}</div>
+     <div class="about">by {{ product['manufacturer'] }} supplied by {{ product['supplier'] }}</div>
+     <div class="about">{{ product['details'] }}</div>
+     <p class="price">{{ product['cost'] }}</p>
+    </div>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  <hr>
+  <form method="post" action="">
+    <output>Your Credits are: {{ user['credit'] }}</output>
+    <p>Total : {{ total - user['credit'] }}<br>
+    The product will be delivered to {{ user['address'] }}<br>
+    Enter the details:<br>
+    <label for="card_number">Card Number:</label>
+    <input name="card_number" id="card_number" required><br>
+    <label for="card_expire_date">Card Exp Date:</label>
+    <input name="card_expire_date" id="card_expire_date" required><br>
+    <label for="cvv">CVV:</label>
+    <input type="password" name="cvv" id="cvv" required><br>
+    <input type="submit" name="action" value="Pay">
+  </p>
+  </form>
+{% endblock %}
